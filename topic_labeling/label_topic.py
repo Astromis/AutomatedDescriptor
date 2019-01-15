@@ -1,5 +1,9 @@
 import argparse
 import lda
+from gensim.models import ldamodel
+from gensim.corpora.dictionary import Dictionary
+from gensim.models.lsimodel import LsiModel
+
 import numpy as np
 
 from sklearn.feature_extraction.text import (CountVectorizer
@@ -69,9 +73,22 @@ def get_topic_labels(corpus_path, n_topics,
     """
     Refer the arguments to `create_parser`
     """
+    #gensim's topic modeling
     print("Loading docs...")
     docs = load_line_corpus(corpus_path)
+    common_dictionary = Dictionary(docs)
+    common_corpus = [common_dictionary.doc2bow(text) for text in docs]
 
+    lda1 = ldamodel.LdaModel(common_corpus, num_topics=10, id2word=common_dictionary)
+    lsi = LsiModel(corpus=common_corpus, id2word=common_dictionary, num_topics=400)
+    
+    lda1.print_topics(5)
+    print("---------------------------------------")
+    #lsi.print_topics(5)
+    print(lsi.print_topic(0))
+    
+    #print(common_corpus)
+    exit()
     if 'wordlen' in preprocessing_steps:
         print("Word length filtering...")
         wl_filter = CorpusWordLengthFilter(minlen=3)

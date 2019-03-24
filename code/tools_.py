@@ -124,6 +124,7 @@ class TextProcessing:
 #print(split_into_senttok(test))
 
 #text_peprocessing("text")
+'''
 from nltk.collocations import BigramCollocationFinder
 from nltk import BigramAssocMeasures
 
@@ -133,3 +134,4 @@ data = tp.proccess('test.txt')
 finder = BigramCollocationFinder.from_documents(data)
 bigrams = finder.nbest(measures.fisher,10)
 print(bigrams)
+'''

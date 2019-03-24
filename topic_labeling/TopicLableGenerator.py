@@ -4,6 +4,7 @@ from gensim.models import ldamodel
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.lsimodel import LsiModel
 
+
 import numpy as np
 
 from sklearn.feature_extraction.text import (CountVectorizer
@@ -42,11 +43,10 @@ class TopicLableGenerator():
     lables_gen.print_topical_lables
     """
     def __init__(self,corpus_path, preprocessing_steps,
-                     n_topics=6, 
-                     label_min_df=5,
+                     topic_model,
+                     label_min_df=1,
                      label_tags=['NN,NN', 'JJ,NN'], n_labels=8,
-                     lda_random_state=12345,
-                     lda_n_iter=400):
+                     ):
         
         self.tag_constraints = []
 
@@ -59,12 +59,11 @@ class TopicLableGenerator():
 
         self.pmi_cal = PMICalculator(
                         doc2word_vectorizer=WordCountVectorizer(
-                        min_df=5,
+                        min_df=2,
                         stop_words=load_lemur_stopwords()),
                         doc2label_vectorizer=LabelCountVectorizer())
 
-        self.model = lda.LDA(n_topics=n_topics, n_iter=lda_n_iter,
-                random_state=lda_random_state, )
+        self.model = topic_model
         
         self.ranker = LabelRanker(apply_intra_topic_coverage=False)
 
@@ -114,7 +113,7 @@ class TopicLableGenerator():
 
         print("Topic modeling using LDA...")
         self.model.fit(self.pmi_cal.d2w_)
-
+      
         self.labels = self.ranker.top_k_labels(topic_models=self.model.topic_word_,
                                     pmi_w2l=self.pmi_w2l,
                                     index2label=self.pmi_cal.index2label_,

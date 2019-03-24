@@ -71,5 +71,4 @@ def clean_text(txt):
 
     
 
-txts = TextSegmentator(6, 'words', "../glove.6B.50d.txt")
-txts.process("test1.txt")
+

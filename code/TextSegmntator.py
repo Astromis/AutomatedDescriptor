@@ -79,10 +79,10 @@ class TextSegmentator:
                 if self.level == "words":
                     f.write(" ".join(text[prev:k1]).replace("NL","\n"))
                 elif self.level == "sentences":
-                    f.write(". ".join(map(lambda x: ' '.join(x), text[prev:k1]))    .replace("NL","\n"))
-                f.write("\nBREAK\n")
+                    f.write(". ".join(map(lambda x: ' '.join(x), text[prev:k1])).replace("NL","\n"))
+                f.write(".\n")
                 prev = k1
 
 
-txts = TextSegmentator(5, 'sentences', "../glove.6B.100d.txt")
-txts.process("test1.txt")
+#txts = TextSegmentator(5, 'sentences', "../glove.6B.100d.txt")
+#txts.process("test1.txt")

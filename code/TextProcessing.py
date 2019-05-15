@@ -1,29 +1,6 @@
-from gensim.models import KeyedVectors
 from os import listdir
 import codecs
 import itertools
-
-def load_embeddings(path):
-    """
-    Loads pre-trained glove word embeddings with gensim
-
-    input: path to pretrained word embeddings.
-            it must be in the glove format. can be obtainable from official site
-    output: gensim's object of KeyedVectors
-    """
-    tmp = 0
-    print("Import word embeddings.")
-    tmp_name = 'tmp_' + path[path.rfind('/')+1:] + '.data'
-    if tmp_name not in listdir('.'):
-        print("Required format not found. Translating") 
-        tmp = open(tmp_name, 'w')
-        from gensim.scripts.glove2word2vec import glove2word2vec
-        glove2word2vec(path, tmp)
-        tmp = open(tmp_name, 'r')
-    else:
-        tmp = open(tmp_name, 'r')
-
-    return KeyedVectors.load_word2vec_format(tmp)
 
 
 def default_remove_punct(tokens):
@@ -31,8 +8,8 @@ def default_remove_punct(tokens):
 
 def default_remove_punct2(tokens):
     return [word for word in tokens if word not in u'!"#$%&\'()*+,-./:;<=>?@[\]^_`{|}~']
-
-
+    
+    
 class TextProcessing:
 
     def __init__(self, level='ps', remove_sw=True, remove_punct=default_remove_punct2):
